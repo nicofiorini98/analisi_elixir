@@ -1,0 +1,5 @@
+:code.purge(MoreTask1)
+:code.delete(MoreTask1)
+c("lib/moretasknew.ex")
+MoreTask1.run_all_operations
+System.halt
