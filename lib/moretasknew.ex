@@ -14,13 +14,12 @@ defmodule MoreTask1 do
   def run_all_operations() do
 
     processes = {1,2,3,4,5,6,7,8,16,24,32,40,48,120,160,240,280,320,360,400}
-    productsnumber = 1000001
+    productsnumber = 10001
     step = 500
 
     #productsnumber = 1000
     #processnumber = 1000
 
-    step = 500
 
     # va da 1 a 1000 in step di 500
     for proc <- 1..(tuple_size(processes)-1) do
@@ -45,7 +44,7 @@ defmodule MoreTask1 do
         tasks =
           for _i <- 1..processnumber do
             Task.async(fn ->
-              operations()
+              operations(productsnumber)
             end)
           end
 
