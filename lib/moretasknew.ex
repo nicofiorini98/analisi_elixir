@@ -56,13 +56,13 @@ defmodule MoreTask1 do
   # scrive il tempo impiegato su file
   def parallel_operations(productsnumber, processnumber) do
 
-    # temp = trunc(productsnumber/processnumber) # non viene mai usata questa variabile
+    temp = trunc(productsnumber/processnumber) # non viene mai usata questa variabile
 
     {time, _result} =
       :timer.tc(fn ->
         tasks =
           for _i <- 1..processnumber do
-            Task.async(fn -> operations(productsnumber) end)
+            Task.async(fn -> operations(temp) end)
           end
 
         # Per ogni task aspetta di finire
