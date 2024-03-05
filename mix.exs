@@ -5,7 +5,7 @@ defmodule AnalisiElixir.MixProject do
     [
       app: :analisi_elixir,
       version: "0.1.0",
-      elixir: "~> 1.13.4",
+      elixir: "~> 1.16.0",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]

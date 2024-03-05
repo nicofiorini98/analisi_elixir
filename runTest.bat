@@ -17,3 +17,5 @@ REM cmd  /c iex --erl "+S 14" --erl "+sbt db"  --dot-iex "runTest.iex" -S mix
 REM cmd  /c iex --erl "+S 15" --erl "+sbt db"  --dot-iex "runTest.iex" -S mix
 REM cmd  /c iex --erl "+S 16" --erl "+sbt db"  --dot-iex "runTest.iex" -S mix
 pause
+
+REM è per commentare il codice
