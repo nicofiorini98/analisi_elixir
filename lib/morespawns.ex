@@ -47,7 +47,7 @@ defmodule MoreSpawns do
           for _i <- 1..processnumber do
             parent = self()
 
-            spawn_link(fn -> operations(productsnumber)
+            spawn_link(fn -> operations(temp)
             send(parent, :done) end)
           end
 
