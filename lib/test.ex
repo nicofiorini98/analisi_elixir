@@ -6,7 +6,7 @@ defmodule Test do
   end
 
   def run do
-    {time, _result} =
+    {_time, _result} =
       :timer.tc(fn ->
         tasks =
           for _i <- 1..400 do

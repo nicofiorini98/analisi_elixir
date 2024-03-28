@@ -14,7 +14,8 @@ defmodule AnalisiElixir.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger],
+      mod: {TaskApplication.Application, []}
     ]
   end
 
@@ -22,8 +23,8 @@ defmodule AnalisiElixir.MixProject do
   defp deps do
     [
       {:observer_cli, "~> 1.6"},
-      {:csv, "~> 3.2"},
-      {:tortoise311, "~> 0.11.5"}
+      {:csv, "~> 3.2.1"},
+      # {:tortoise311, "~> 0.11.5"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]
