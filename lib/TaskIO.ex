@@ -1,43 +1,72 @@
-defmodule TaskOptimized do
+defmodule TaskIO do
   # use GenServer
   require Logger
+
   import MyFile
 
-
-  def compute_products(productsnumber) do
-    for _i <- 1..productsnumber do
-      1 * 1000
+  def parse_json_file(file_path \\"./File/read.json") do
+    case File.read(file_path) do
+      {:ok, json_data} ->
+        case Poison.decode(json_data) do
+          {:ok, parsed_json} -> parsed_json
+          {:error, reason} ->
+            IO.puts("Failed to parse JSON: #{reason}")
+            nil
+        end
+      {:error, reason} ->
+        IO.puts("Failed to read file: #{reason}")
+        nil
     end
   end
 
+  def compute_products(operations,file) do
+    for _i <- 1..operations do
+      data = parse_json_file()
 
-  @spec run() :: list()
+      #calcolo risoltati del json
+      somma = data["somma"] |> Enum.reduce(fn(x,acc)-> acc + x end)
+      sottrazione = data["sottrazione"] |> Enum.reduce(fn(x,acc)-> acc - x end)
+      moltiplicazione = data["moltiplicazione"] |> Enum.reduce(fn(x,acc)-> acc * x end)
+      divisione = data["divisione"] |> Enum.reduce(fn(x,acc)-> acc / x end)
+
+      #scrittura risultati del json
+      result = [
+        "#{somma},",
+        "#{sottrazione},",
+        "#{moltiplicazione},",
+        "#{divisione}\n",
+      ]
+      # write_operations(result)
+      IO.write(file, result)
+    end
+  end
+
   def run do
-    processes = [1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128]
-    productsnumber = 100_000
+    processes = [1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64,128]
+    productsnumber = 10000
     step = 500
+
+    {:ok, file} = File.open("./File/write.csv", [:write,:append])
 
     for proc <- processes do
       Logger.info("compute with processes #{proc} and #{System.schedulers} scheduler")
       for comp <- 500..productsnumber//step do
         before_operations = :erlang.memory()[:total]
-        {:ok, _time} = parallel_operations(comp, proc)
+        {:ok, _time} = parallel_operations(comp, proc,file)
         after_operations = :erlang.memory()[:total]
         _used_memory = after_operations - before_operations
 
-        # Logger.info("compute #{comp} operations with #{proc} processes in #{time}")
-        # temp = trunc(comp/proc)
-        # Logger.info("compute #{comp} operations with #{proc} processes in #{time} us, computation per process #{temp}")
-        # Logger.info("used_memory: #{used_memory}, passed time: #{time} microsecond")
       end
     end
+    File.close(file)
   end
 
-  def parallel_operations(productsnumber, processnumber) do
+  def parallel_operations(productsnumber, processnumber,file) do
     # non viene mai usata questa variabile
     # Logger.info("compute #{productsnumber} operations with #{processnumber} processes")
 
-    if productsnumber >= processnumber and processnumber != 1 do
+
+    if productsnumber > processnumber do
       #divide the products number to assign to each process
       temp = trunc(productsnumber / processnumber)
       # compute the rest to compute to restTask
@@ -50,9 +79,9 @@ defmodule TaskOptimized do
           fn ->
             tasks =
               for _i <- 1..processnumber do
-                Task.async(fn -> compute_products(temp) end)
+                Task.async(fn -> compute_products(temp,file) end)
               end
-            restTask = Task.async(fn -> compute_products(rest) end)
+            restTask = Task.async(fn -> compute_products(rest,file) end)
 
             # Per ogni task aspetta di finire
             for task <- tasks do
@@ -69,7 +98,7 @@ defmodule TaskOptimized do
       {time, _result} =
         :timer.tc(
           fn ->
-            task = Task.async(fn -> compute_products(productsnumber) end)
+            task = Task.async(fn -> compute_products(productsnumber,file) end)
             Task.await(task, :infinity)
             # Logger.info("single products")
           end,
@@ -79,16 +108,16 @@ defmodule TaskOptimized do
       writeData2File(time,processnumber,productsnumber)
       {:ok, time}
     end
+
   end
 
   def writeData2File(time,processnumber,productsnumber) do
     available_scheduler = :erlang.system_info(:logical_processors_available)
 
-    # scheduler_online = System.schedulers_online()
-    scheduler = System.schedulers()
+    scheduler_online = System.schedulers_online()
 
     data = [
-      "#{scheduler},",
+      "#{scheduler_online},",
       "#{available_scheduler},",
       "#{time},",
       "#{processnumber},",

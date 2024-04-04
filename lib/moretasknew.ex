@@ -1,7 +1,6 @@
 ### uso Task
 defmodule MoreTask1 do
   # @maxTaskCounter  1
-  require CSV
   # import CounterServer
   import MyFile
 

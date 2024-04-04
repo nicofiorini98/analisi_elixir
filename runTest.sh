@@ -9,8 +9,14 @@ iex --erl "+S 5" --dot-iex "runTest.iex" -S mix
 iex --erl "+S 6" --dot-iex "runTest.iex" -S mix
 iex --erl "+S 7" --dot-iex "runTest.iex" -S mix
 iex --erl "+S 8" --dot-iex "runTest.iex" -S mix
-
-
+iex --erl "+S 9 +sbt db" --dot-iex "runTest.iex" -S mix
+iex --erl "+S 10 +sbt db" --dot-iex "runTest.iex" -S mix
+iex --erl "+S 11 +sbt db" --dot-iex "runTest.iex" -S mix
+iex --erl "+S 12 +sbt db" --dot-iex "runTest.iex" -S mix
+iex --erl "+S 13 +sbt db" --dot-iex "runTest.iex" -S mix
+iex --erl "+S 14 +sbt db" --dot-iex "runTest.iex" -S mix
+iex --erl "+S 15 +sbt db" --dot-iex "runTest.iex" -S mix
+iex --erl "+S 16 +sbt db" --dot-iex "runTest.iex" -S mix
 
 # Replace with actual paths
 # iex_path="/path/to/iex"

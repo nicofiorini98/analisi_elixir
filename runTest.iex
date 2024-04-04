@@ -1,5 +1,5 @@
-:code.purge(MoreTask1)
-:code.delete(MoreTask1)
-c("lib/moretasknew.ex")
-MoreTask1.run_all_operations
+:code.purge(TaskIO)
+:code.delete(TaskIO)
+c("lib/TaskIO.ex")
+TaskIO.run
 System.halt
