@@ -1,0 +1,5 @@
+:code.purge(TaskIO)
+:code.delete(TaskIO)
+c("lib/TaskIO.ex")
+TaskIO.run
+System.halt

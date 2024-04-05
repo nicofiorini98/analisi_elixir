@@ -23,7 +23,7 @@ defmodule TaskIO do
     for _i <- 1..operations do
       data = parse_json_file()
 
-      #calcolo risoltati del json
+      #calcolo risultati del json
       somma = data["somma"] |> Enum.reduce(fn(x,acc)-> acc + x end)
       sottrazione = data["sottrazione"] |> Enum.reduce(fn(x,acc)-> acc - x end)
       moltiplicazione = data["moltiplicazione"] |> Enum.reduce(fn(x,acc)-> acc * x end)
@@ -36,13 +36,12 @@ defmodule TaskIO do
         "#{moltiplicazione},",
         "#{divisione}\n",
       ]
-      # write_operations(result)
       IO.write(file, result)
     end
   end
 
   def run do
-    processes = [1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64,128]
+    processes = [1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64,128,256]
     productsnumber = 10000
     step = 500
 
@@ -62,11 +61,7 @@ defmodule TaskIO do
   end
 
   def parallel_operations(productsnumber, processnumber,file) do
-    # non viene mai usata questa variabile
-    # Logger.info("compute #{productsnumber} operations with #{processnumber} processes")
 
-
-    if productsnumber > processnumber do
       #divide the products number to assign to each process
       temp = trunc(productsnumber / processnumber)
       # compute the rest to compute to restTask
@@ -94,20 +89,6 @@ defmodule TaskIO do
         )
         writeData2File(time,processnumber,productsnumber)
         {:ok,time}
-    else
-      {time, _result} =
-        :timer.tc(
-          fn ->
-            task = Task.async(fn -> compute_products(productsnumber,file) end)
-            Task.await(task, :infinity)
-            # Logger.info("single products")
-          end,
-          [],
-          :microsecond
-        )
-      writeData2File(time,processnumber,productsnumber)
-      {:ok, time}
-    end
 
   end
 
@@ -126,7 +107,7 @@ defmodule TaskIO do
     ]
 
     # scrittura risultato su file
-    write(data)
+    write(data,"./File/testIO.csv")
     # write_to_csv(data)
     {:ok, time}
   end
