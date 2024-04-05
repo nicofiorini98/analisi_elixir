@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cd /home/nico/project/tesi/analisi_elixir
 iex --erl "+S 1" --dot-iex "runTest.iex" -S mix
 iex --erl "+S 2" --dot-iex "runTest.iex" -S mix
 iex --erl "+S 3" --dot-iex "runTest.iex" -S mix

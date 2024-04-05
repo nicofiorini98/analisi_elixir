@@ -1,5 +1,5 @@
-:code.purge(TaskIO)
-:code.delete(TaskIO)
-c("lib/TaskIO.ex")
-TaskIO.run
+:code.purge(ConcurrentTask)
+:code.delete(ConcurrentTask)
+c("lib/concurrent_task.ex")
+ConcurrentTask.run
 System.halt

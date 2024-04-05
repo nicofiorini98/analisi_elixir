@@ -1,11 +1,12 @@
-opts = detectImportOptions('/home/nico/project/tesi/analisi_elixir/File/test_nico.csv');
+opts = detectImportOptions('/home/nico/project/tesi/analisi_elixir/File/test_nico2.csv');
 opts.DataLine = 2;
-data = readtable('/home/nico/project/tesi/analisi_elixir/File/test_nico.csv', opts);
+data = readtable('/home/nico/project/tesi/analisi_elixir/File/test_nico2.csv', opts);
 
 inizio = 0;  % Variabile di esempio
-valore1=1;
-array = 500:500:100000;  % Array da 501 a 1000000 con passo 500
-range= horzcat(inizio, valore1, array);
+valore1=500;
+%array = 1000:500:100000;  % Array da 501 a 1000000 con passo 500
+%range= horzcat(inizio, valore1, array);
+range = 500:500:100000;
 processes= [2,3,4,5,6,7,8,16,32,64,128];
 
 %h = fir1(10, 0.1);
@@ -34,9 +35,9 @@ for n=1:16%scheduler
             riga = Data2proc(i,:);
             if any(range ==(riga.N_Products/processes(k))) % (Data2proc(i).N_Products/2))
                 %qui devo plottare il valore rispetto a un processo
-                tmp = find(Data1proc.Time == Data1proc.Time(Data1proc.N_Products == (riga.N_Products/processes(k))) & Data1proc.N_Products == (riga.N_Products/processes(k)));
+                %tmp = find(Data1proc.Time == Data1proc.Time(Data1proc.N_Products == (riga.N_Products/processes(k))) & Data1proc.N_Products == (riga.N_Products/processes(k)));
                 % tmp1 valore normalizzato
-                tmp1=  Data2procfiltered(i)./ Data1procfiltered(tmp);
+                tmp1 =  Data2procfiltered(i)./ Data1procfiltered(i);
                 %tmp1 = tmp ./ (riga.Time)/(riga.N_Products./2);
 
 
@@ -55,7 +56,7 @@ for n=1:16%scheduler
 
                 index_min = find(differenza == val_min(1));  %qui io voglio che sia solo uno il minimo ma se ci sono due valori uguali che sono il minimo ho un array
                 %disp("index min");
-                %  disp(index_min(1));
+                %disp(index_min(1));
 
 
                 if index_min(1)==1
@@ -86,7 +87,7 @@ for n=1:16%scheduler
                     y0=  Data1procfiltered(tmp);
                     %disp(y0);
                     valore=(Data1proc.Time(Data1proc.N_Products==val_succ(1)));
-                    tmp= find(Data1proc.Time== valore   &  Data1proc.N_Products == val_succ(1));
+                    tmp = find(Data1proc.Time== valore   &  Data1proc.N_Products == val_succ(1));
                     % disp(tmp);
                     y1= Data1procfiltered(tmp);
                     %disp(y1);
@@ -99,7 +100,7 @@ for n=1:16%scheduler
                 y_interp= interp1(Ax,By, riga.N_Products/processes(k),'linear');
 
                 datifinali(i,1)=(riga.N_Products);% /k
-                datifinali(i,2)= Data2procfiltered(i)/y_interp;%(riga.Time./riga.N_Products)/y_interp;
+                datifinali(i,2)= Data2procfiltered(i)./y_interp;%(riga.Time./riga.N_Products)/y_interp;
                 %plot(riga.N_Products, (riga.Time./riga.N_Products)/y_interp, 'color','red');%non plotta nulla
 
 
