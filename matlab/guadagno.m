@@ -1,6 +1,6 @@
-opts = detectImportOptions('C:\Users\Utente\TestElixir\analisi_elixir\File\test_concorrenza2.csv');
+opts = detectImportOptions('C:\Users\Utente\TestElixir\analisi_elixir\File\testIO.csv');
 opts.DataLine = 2;
-data = readtable('C:\Users\Utente\TestElixir\analisi_elixir\File\test_concorrenza2.csv', opts);
+data = readtable('C:\Users\Utente\TestElixir\analisi_elixir\File\testIO.csv', opts);
 
 valore1=500;
 range = 500:500:100000;  % Array da 501 a 1000000 con passo 500

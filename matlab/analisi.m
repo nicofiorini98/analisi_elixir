@@ -1,6 +1,8 @@
-opts = detectImportOptions('/home/nico/project/tesi/analisi_elixir/File/test_concorrenza2.csv');
+opts = detectImportOptions(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/' ...
+    'testIO_definitivo.csv']);
 opts.DataLine = 2;
-data = readtable('/home/nico/project/tesi/analisi_elixir/File/test_concorrenza2.csv', opts);
+data = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test' ...
+    '/testIO_definitivo.csv'], opts);
 
 %colors_names = ['red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'black'];
 colors = [
@@ -26,9 +28,10 @@ colors = [
     255 140 0   % Dark Orange
     ];
 colors = colors / 255;
+%processes = [1,2,3,4,5,6,7,8,16,32,64,128,256,512];
 processes = [1,2,3,4,5,6,7,8,16,32,64,128,256];
 
-for n = 1:1
+for n = 1:16
 
     figure;
 
@@ -41,19 +44,23 @@ for n = 1:1
 
         filteredTime = ...
              (filteredData.Time ./filteredData.N_Products);
-        %filteredTime = (filteredData.Time);
         plot(filteredData.N_Products, filteredTime, 'Color', colors(i, :));
 
         hold on
 
     end
-    xlabel('N_Products');
-    ylabel('Time/Products');
+    xlabel('N. Operazioni IO');
+    ylabel('Time/operazione(microsec)');
 
     title('Grafico per n. Scheduler: ',n);
 
     legend('1 process','2 processes','3 processes','4 processes', ...
         '5 processes','6 processes','7 processes','8 processes', ...
-        '16 processes','32 processes','64 processes','128 processes','256 processes');
+        '16 processes','32 processes','64 processes','128 processes',...
+        '256 processes');
+    % legend('1 process','2 processes','3 processes','4 processes', ...
+    %      '5 processes','6 processes','7 processes','8 processes', ...
+    %      '16 processes','128 processes','256 processes');
+
 
 end

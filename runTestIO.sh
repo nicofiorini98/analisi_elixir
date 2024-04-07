@@ -16,19 +16,3 @@ iex --erl "+S 13 +sbt db" --dot-iex "runTestIO.iex" -S mix
 iex --erl "+S 14 +sbt db" --dot-iex "runTestIO.iex" -S mix
 iex --erl "+S 15 +sbt db" --dot-iex "runTestIO.iex" -S mix
 iex --erl "+S 16 +sbt db" --dot-iex "runTestIO.iex" -S mix
-
-# Replace with actual paths
-# iex_path="/path/to/iex"
-# run_test_path="/path/to/runTest.iex"
-
-# # Loop through +S values
-# for s in {1..1}; do
-#   # Add +sbt db for values 8 and above
-#   if [[ $s -gt 8 ]]; then
-#     iex_command="$iex_path --erl \"+S $s\" --erl \"+sbt db\""
-#   else
-#     iex_command="$iex_path --erl \"+S $s\""
-#   fi
-
-#   $iex_command --dot-iex "$run_test_path" -S mix
-# done
