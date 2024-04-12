@@ -1,3 +1,4 @@
+N_Scheduler,N_Available_Scheduler,Time,N_Processes,N_Products,Time/N_Products
 8,8,63,1,500,0.126
 8,8,100,1,1000,0.1
 8,8,124,1,1500,0.08266666666666667
