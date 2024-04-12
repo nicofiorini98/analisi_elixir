@@ -12,22 +12,14 @@ defmodule ConcurrentTask do
 
 
   def run do
-    processes = [1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256]
+    processes = [1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256,512]
     productsnumber = 100_000
     step = 500
 
     for proc <- processes do
       Logger.info("compute with processes #{proc} and #{System.schedulers} scheduler")
       for comp <- 500..productsnumber//step do
-        # before_operations = :erlang.memory()[:total]
         {:ok, _time} = parallel_operations(comp, proc)
-        # after_operations = :erlang.memory()[:total]
-        # _used_memory = after_operations - before_operations
-
-        # Logger.info("compute #{comp} operations with #{proc} processes in #{time}")
-        # temp = trunc(comp/proc)
-        # Logger.info("compute #{comp} operations with #{proc} processes in #{time} us, computation per process #{temp}")
-        # Logger.info("used_memory: #{used_memory}, passed time: #{time} microsecond")
       end
     end
     nil

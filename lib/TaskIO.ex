@@ -22,12 +22,14 @@ defmodule TaskIO do
     end
   end
 
-  def compute_products(0, _file) do
+  def compute_products(0) do
     nil
   end
 
-  def compute_products(operations, file) do
+  def compute_products(operations) do
     data = parse_json_file()
+
+    {:ok, file} = File.open("./File/write.csv", [:write,:append])
 
     # calcolo risultati del json
     somma = data["somma"] |> Enum.reduce(fn x, acc -> acc + x end)
@@ -44,30 +46,30 @@ defmodule TaskIO do
     ]
 
     IO.write(file, result)
+
+    File.close(file);
     # chiamata ricorsiva
-    compute_products(operations - 1, file)
+    compute_products(operations - 1)
   end
 
   def run do
-    # processes = [1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256, 512,3000]
-    processes = [3000]
+    processes = [1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256, 512]
     operationsnumber = 20_000
-    step = 250
+    step = 500
 
-    {:ok, file} = File.open("./File/write.csv", [:write, :append])
+    # {:ok, file} = File.open("./File/write.csv", [:write, :append])
 
     for proc <- processes do
       Logger.info("compute with processes #{proc} and #{System.schedulers()} scheduler")
 
       for comp <- 500..operationsnumber//step do
-        {:ok, _time} = parallel_operations(comp, proc, file)
+        {:ok, _time} = parallel_operations(comp, proc)
       end
     end
 
-    File.close(file)
   end
 
-  def parallel_operations(operationsnumber, processnumber, file) do
+  def parallel_operations(operationsnumber, processnumber) do
     # divide the products number to assign to each process
     temp = trunc(operationsnumber / processnumber)
     # compute the rest to compute to restTask
@@ -80,10 +82,10 @@ defmodule TaskIO do
         fn ->
           tasks =
             for _i <- 1..processnumber do
-              Task.async(fn -> compute_products(temp, file) end)
+              Task.async(fn -> compute_products(temp) end)
             end
 
-          restTask = Task.async(fn -> compute_products(rest, file) end)
+          restTask = Task.async(fn -> compute_products(rest) end)
 
           # Per ogni task aspetta di finire
           for task <- tasks do
