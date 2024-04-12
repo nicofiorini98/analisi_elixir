@@ -80,7 +80,7 @@ defmodule ConcurrentTask do
   end
 
   def run_more_test(operations \\0) do
-    path =  "./matlab/file_test/n_file2/fileIO" <> Integer.to_string(operations + 1)<> ".csv"
+    path =  "./matlab/file_test/n_file2/file" <> Integer.to_string(operations + 1)<> ".csv"
     run(path)
     run_more_test(operations + 1)
   end

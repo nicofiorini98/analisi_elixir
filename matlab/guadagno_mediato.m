@@ -1,32 +1,55 @@
 clear;
-opts = detectImportOptions(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO1.csv']);
+opts = detectImportOptions(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO1.csv']);
 opts.DataLine = 2;
-data = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO1.csv'], opts);
+data = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO1.csv'], opts);
 
-data2 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO2.csv'], opts);
+data2 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO2.csv'], opts);
 
-data3 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO//fileIO3.csv'], opts);
+data3 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO3.csv'], opts);
 
-data4 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO4.csv'], opts);
+data4 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO4.csv'], opts);
 
-data5 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO5.csv'], opts);
+data5 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO5.csv'], opts);
 
-data6 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO6.csv'], opts);
+data6 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO6.csv'], opts);
 
-data7 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO7.csv'], opts);
+data7 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO7.csv'], opts);
 
-data8 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO8.csv'], opts);
+data8 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO8.csv'], opts);
 
-data9 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO9.csv'], opts);
+data9 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO9.csv'], opts);
 
-data10 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO10.csv'], opts);
+data10 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO10.csv'], opts);
 
-datimediati = (data(:, 3) + data2(:, 3) + data3(:,3) + data4(:,3) + data5(:, 3) ...
-    + data6(:,3) + data7(:, 3) + data8(:, 3) + data9(:,3) + data10(:,3)) ./ 10;
+data11 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO11.csv'], opts);
 
-data(:,3) = datimediati;
+data12 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO12.csv'], opts);
 
-range = 500:500:20000;
+data13 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO13.csv'], opts);
+
+data14 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO14.csv'], opts);
+
+data15 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO15.csv'], opts);
+
+data16 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO16.csv'], opts);
+
+data17 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO17.csv'], opts);
+
+data18 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO18.csv'], opts);
+
+data19 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO19.csv'], opts);
+
+data20 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO2/fileIO20.csv'], opts);
+
+media = (data(:, 3) + data2(:, 3) + data3(:,3) + data4(:,3) + data5(:, 3) ...
+    + data6(:,3) + data7(:, 3) + data8(:, 3) + data9(:,3) + data10(:,3) + data11(:, 3) + data12(:, 3) ...
+    + data13(:,3) + data14(:,3) + data15(:, 3) ...
+    + data16(:,3) + data17(:, 3) + data18(:, 3) + data19(:,3) + data20(:,3)) ./ 20;
+
+data(:,3) = media;
+
+
+range = 500:250:20000;
 %processes = [2,3,4,5,6,7,8,16,32,64,128,256,512];
 processes = [2,3,4,5,6,7,8,16,32,64,128,256,512];
 colors = [
@@ -51,6 +74,7 @@ colors = [
     255 105 180 % Hot Pink
     255 140 0   % Dark Orange
     ];
+
 colors = colors / 255;
 
 for n = 8:8 % Scheduler
