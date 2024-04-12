@@ -11,7 +11,7 @@ defmodule ConcurrentTask do
   end
 
 
-  def run do
+  def run(path) do
     processes = [1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256,512]
     productsnumber = 100_000
     step = 500
@@ -19,19 +19,17 @@ defmodule ConcurrentTask do
     for proc <- processes do
       Logger.info("compute with processes #{proc} and #{System.schedulers} scheduler")
       for comp <- 500..productsnumber//step do
-        {:ok, _time} = parallel_operations(comp, proc)
+        {:ok, _time} = parallel_operations(comp, proc,path)
       end
     end
     nil
   end
 
-  def parallel_operations(productsnumber, processnumber) do
-    # non viene mai usata questa variabile
-    # Logger.info("compute #{productsnumber} operations with #{processnumber} processes")
+  def parallel_operations(productsnumber, processnumber, path) do
 
-    # if productsnumber >= processnumber and processnumber != 1 do
       #divide the products number to assign to each process
       temp = trunc(productsnumber / processnumber)
+
       # compute the rest to compute to restTask
       rest = rem(productsnumber , processnumber)
 
@@ -53,26 +51,11 @@ defmodule ConcurrentTask do
           [],
           :microsecond
         )
-        writeData2File(time,processnumber,productsnumber)
+        writeData2File(time,processnumber,productsnumber,path)
         {:ok,time}
-    # end
-    # else
-    #   {time, _result} =
-    #     :timer.tc(
-    #       fn ->
-    #         task = Task.async(fn -> compute_products(productsnumber) end)
-    #         Task.await(task, :infinity)
-    #         # Logger.info("single products")
-    #       end,
-    #       [],
-    #       :microsecond
-    #     )
-    #   writeData2File(time,processnumber,productsnumber)
-    #   {:ok, time}
-    # end
   end
 
-  def writeData2File(time,processnumber,productsnumber) do
+  def writeData2File(time,processnumber,productsnumber,path) do
     available_scheduler = :erlang.system_info(:logical_processors_available)
 
     # scheduler_online = System.schedulers_online()
@@ -88,8 +71,18 @@ defmodule ConcurrentTask do
     ]
 
     # scrittura risultato su file
-    write(data)
+    write(data,path)
     # write_to_csv(data)
     {:ok, time}
   end
+  def run_more_test(20) do
+    nil
+  end
+
+  def run_more_test(operations \\0) do
+    path =  "./matlab/file_test/n_file2/fileIO" <> Integer.to_string(operations + 1)<> ".csv"
+    run(path)
+    run_more_test(operations + 1)
+  end
+
 end

@@ -22,58 +22,60 @@ defmodule TaskIO do
     end
   end
 
-  def compute_products(0) do
+  def compute_products(0,_) do
     nil
   end
 
-  def compute_products(operations) do
-    data = parse_json_file()
+  def compute_products(operations, file) do
 
-    {:ok, file} = File.open("./File/write.csv", [:write,:append])
+      data = parse_json_file()
 
-    # calcolo risultati del json
-    somma = data["somma"] |> Enum.reduce(fn x, acc -> acc + x end)
-    sottrazione = data["sottrazione"] |> Enum.reduce(fn x, acc -> acc - x end)
-    moltiplicazione = data["moltiplicazione"] |> Enum.reduce(fn x, acc -> acc * x end)
-    divisione = data["divisione"] |> Enum.reduce(fn x, acc -> acc / x end)
+      # calcolo risoltati del json
+      somma = data["somma"] |> Enum.reduce(fn x, acc -> acc + x end)
+      sottrazione = data["sottrazione"] |> Enum.reduce(fn x, acc -> acc - x end)
+      moltiplicazione = data["moltiplicazione"] |> Enum.reduce(fn x, acc -> acc * x end)
+      divisione = data["divisione"] |> Enum.reduce(fn x, acc -> acc / x end)
 
-    # scrittura risultati del json
-    result = [
-      "#{somma},",
-      "#{sottrazione},",
-      "#{moltiplicazione},",
-      "#{divisione}\n"
-    ]
+      # scrittura risultati del json
+      result = [
+        "#{somma},",
+        "#{sottrazione},",
+        "#{moltiplicazione},",
+        "#{divisione}\n"
+      ]
 
-    IO.write(file, result)
+      # write_operations(result)
+      IO.write(file, result)
 
-    File.close(file);
-    # chiamata ricorsiva
-    compute_products(operations - 1)
+      compute_products(operations - 1, file)
   end
 
-  def run do
+  def run(path_result \\"./File/fileIO.csv") do
     processes = [1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256, 512]
-    operationsnumber = 20_000
-    step = 500
+    productsnumber = 20000
+    step = 250
 
-    # {:ok, file} = File.open("./File/write.csv", [:write, :append])
+    {:ok, file} = File.open("./File/write.csv", [:write, :append])
 
     for proc <- processes do
       Logger.info("compute with processes #{proc} and #{System.schedulers()} scheduler")
 
-      for comp <- 500..operationsnumber//step do
-        {:ok, _time} = parallel_operations(comp, proc)
+      for comp <- 500..productsnumber//step do
+        {:ok, _time} = parallel_operations(comp, proc, file,path_result)
       end
     end
 
+    File.close(file)
   end
 
-  def parallel_operations(operationsnumber, processnumber) do
+  def parallel_operations(productsnumber, processnumber, file, path_result) do
+    # non viene mai usata questa variabile
+    # Logger.info("compute #{productsnumber} operations with #{processnumber} processes")
+
     # divide the products number to assign to each process
-    temp = trunc(operationsnumber / processnumber)
+    temp = trunc(productsnumber / processnumber)
     # compute the rest to compute to restTask
-    rest = rem(operationsnumber, processnumber)
+    rest = rem(productsnumber, processnumber)
     # Logger.info("temp: #{temp} , products_number: #{(temp*processnumber + rest)}")
 
     # Logger.info("multiple process")
@@ -82,10 +84,10 @@ defmodule TaskIO do
         fn ->
           tasks =
             for _i <- 1..processnumber do
-              Task.async(fn -> compute_products(temp) end)
+              Task.async(fn -> compute_products(temp, file) end)
             end
 
-          restTask = Task.async(fn -> compute_products(rest) end)
+          restTask = Task.async(fn -> compute_products(rest, file) end)
 
           # Per ogni task aspetta di finire
           for task <- tasks do
@@ -98,14 +100,14 @@ defmodule TaskIO do
         :microsecond
       )
 
-    writeData2File(time, processnumber, operationsnumber)
+    writeData2File(time, processnumber, productsnumber, path_result)
     {:ok, time}
   end
 
-  def writeData2File(time, processnumber, productsnumber) do
+  def writeData2File(time, processnumber, productsnumber, path_result) do
     available_scheduler = :erlang.system_info(:logical_processors_available)
 
-    scheduler_online = System.schedulers()
+    scheduler_online = System.schedulers_online()
 
     data = [
       "#{scheduler_online},",
@@ -117,8 +119,18 @@ defmodule TaskIO do
     ]
 
     # scrittura risultato su file
-    write(data, "./File/testIO.csv")
+    write(data, path_result)
     # write_to_csv(data)
     {:ok, time}
+  end
+
+  def run_more_test(20) do
+    nil
+  end
+
+  def run_more_test(operations \\0) do
+    path =  "./matlab/file_test/n_file_IO2/fileIO" <> Integer.to_string(operations + 1)<> ".csv"
+    run(path)
+    run_more_test(operations + 1)
   end
 end

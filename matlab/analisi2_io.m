@@ -1,37 +1,37 @@
-opts = detectImportOptions(['C:\Users\1dnic\Desktop\Tesi\analisi_elixir\matlab\file_test\n_file_IO\fileIO1.csv']);
+opts = detectImportOptions(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO1.csv']);
 opts.DataLine = 2;
-data = readtable(['C:\Users\1dnic\Desktop\Tesi\analisi_elixir\matlab\file_test\n_file_IO\fileIO1.csv'], opts);
+data = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO1.csv'], opts);
 
-data2 = readtable(['C:\Users\1dnic\Desktop\Tesi\analisi_elixir\matlab\file_test\n_file_IO\fileIO2.csv'], opts);
+data2 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO2.csv'], opts);
 
-data3 = readtable(['C:\Users\1dnic\Desktop\Tesi\analisi_elixir\matlab\file_test\n_file_IO\fileIO3.csv'], opts);
+data3 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO//fileIO3.csv'], opts);
 
-data4 = readtable(['C:\Users\1dnic\Desktop\Tesi\analisi_elixir\matlab\file_test\n_file_IO\fileIO3.csv'], opts);
+data4 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO4.csv'], opts);
 
-data5 = readtable(['C:\Users\1dnic\Desktop\Tesi\analisi_elixir\matlab\file_test\n_file_IO\fileIO5.csv'], opts);
+data5 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO5.csv'], opts);
 
-data6 = readtable(['C:\Users\1dnic\Desktop\Tesi\analisi_elixir\matlab\file_test\n_file_IO\fileIO6.csv'], opts);
+data6 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO6.csv'], opts);
 
-data7 = readtable(['C:\Users\1dnic\Desktop\Tesi\analisi_elixir\matlab\file_test\n_file_IO\fileIO7.csv'], opts);
+data7 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO7.csv'], opts);
 
-data8 = readtable(['C:\Users\1dnic\Desktop\Tesi\analisi_elixir\matlab\file_test\n_file_IO\fileIO8.csv'], opts);
+data8 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO8.csv'], opts);
 
-data9 = readtable(['C:\Users\1dnic\Desktop\Tesi\analisi_elixir\matlab\file_test\n_file_IO\fileIO9.csv'], opts);
+data9 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO9.csv'], opts);
 
-data10 = readtable(['C:\Users\1dnic\Desktop\Tesi\analisi_elixir\matlab\file_test\n_file_IO\fileIO10.csv'], opts);
+data10 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file_IO/fileIO7.csv'], opts);
 
 datimediati = (data(:, 3) + data2(:, 3) + data3(:,3) + data4(:,3) + data5(:, 3) ...
     + data6(:,3) + data7(:, 3) + data8(:, 3) + data9(:,3) + data10(:,3)) ./ 10;
 
 data(:,3) = datimediati;
 
-byte_a_operazione = table2array(data(:,5) .* 17);
-un_mega = 1048576;
-tempo_secondi = table2array(data(:,3) .* 10^-6);
-
-mega_sec = (byte_a_operazione / un_mega) ./ tempo_secondi;
-
-data(:,3) = array2table(test);
+% byte_a_operazione = table2array(data(:,5) .* 17);
+% un_mega = 1048576;
+% tempo_secondi = table2array(data(:,3) .* 10^-6);
+% 
+% mega_sec = (byte_a_operazione / un_mega) ./ tempo_secondi;
+% 
+% data(:,3) = array2table(test);
 
 % data(:,3) = ((data(:,5) .* 17 ) ./ 1048576) ./ (data(:,3) .* 10^-6);
 % qui devo vedere i byte scritti su disco.
@@ -74,7 +74,7 @@ for n =8:8
         % Filtra i dati per N_Processes = 1 e N_Products = 1
         filteredData = data(data.N_Processes == num_processes & data.N_Scheduler==n,:);
 
-        filteredTime = (filteredData.Time);
+        filteredTime = (filteredData.Time ./ filteredData.N_Products);
         plot(filteredData.N_Products, filteredTime, 'Color', colors(i, :));
 
         hold on
