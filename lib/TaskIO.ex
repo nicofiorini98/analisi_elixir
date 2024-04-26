@@ -53,7 +53,7 @@ defmodule TaskIO do
   def run(path_result \\"./File/fileIO.csv") do
     processes = [1, 4, 8, 16, 64, 128, 512]
     productsnumber = 10000
-    step = 250
+    step = 500
 
     {:ok, file} = File.open("./File/write.csv", [:write, :append])
 
@@ -79,7 +79,7 @@ defmodule TaskIO do
     # Logger.info("temp: #{temp} , products_number: #{(temp*processnumber + rest)}")
 
     # Logger.info("multiple process")
-    data = for _i <- 1..40 do
+    data = for _i <- 1..500 do
       # {_time, _result} =
         :timer.tc(
           fn ->
