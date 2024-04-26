@@ -5,41 +5,41 @@ data = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_fil
 
 data2 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file2.csv'], opts);
 
-data3 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file3.csv'], opts);
-
-data4 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file4.csv'], opts);
-
-data5 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file5.csv'], opts);
-
-data6 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file6.csv'], opts);
-
-data7 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file7.csv'], opts);
-
-data8 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file8.csv'], opts);
-
-data9 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file9.csv'], opts);
-
-data10 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file10.csv'], opts);
-
-data11 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file11.csv'], opts);
-
-data12 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file12.csv'], opts);
-
-data13 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file13.csv'], opts);
-
-data14 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file14.csv'], opts);
-
-data15 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file15.csv'], opts);
-
-data16 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file16.csv'], opts);
-
-data17 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file17.csv'], opts);
-
-data18 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file18.csv'], opts);
-
-data19 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file19.csv'], opts);
-
-data20 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file20.csv'], opts);
+% data3 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file3.csv'], opts);
+% 
+% data4 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file4.csv'], opts);
+% 
+% data5 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file5.csv'], opts);
+% 
+% data6 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file6.csv'], opts);
+% 
+% data7 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file7.csv'], opts);
+% 
+% data8 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file8.csv'], opts);
+% 
+% data9 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file9.csv'], opts);
+% 
+% data10 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file10.csv'], opts);
+% 
+% data11 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file11.csv'], opts);
+% 
+% data12 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file12.csv'], opts);
+% 
+% data13 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file13.csv'], opts);
+% 
+% data14 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file14.csv'], opts);
+% 
+% data15 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file15.csv'], opts);
+% 
+% data16 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file16.csv'], opts);
+% 
+% data17 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file17.csv'], opts);
+% 
+% data18 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file18.csv'], opts);
+% 
+% data19 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file19.csv'], opts);
+% 
+% data20 = readtable(['/home/nico/project/tesi/analisi_elixir/matlab/file_test/n_file2/file20.csv'], opts);
 
 media = (data(:, 3) + data2(:, 3) + data3(:,3) + data4(:,3) + data5(:, 3) ...
     + data6(:,3) + data7(:, 3) + data8(:, 3) + data9(:,3) + data10(:,3) + data11(:, 3) + data12(:, 3) ...

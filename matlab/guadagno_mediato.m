@@ -51,12 +51,12 @@ data(:,3) = media;
 
 range = 500:250:20000;
 %processes = [2,3,4,5,6,7,8,16,32,64,128,256,512];
-processes = [2,3,4,5,6,7,8,16,32,64,128,256,512];
+processes = [2,4,8,64,256];
 colors = [
     255 0   0   % Red
     0   255 0   % Green
     0   0   255 % Blue
-    255 255 0   % Yellow
+    % 255 255 0   % Yellow
     0   255 255 % Cyan
     255 0   255 % Magenta
     128 128 128 % Gray
@@ -95,12 +95,11 @@ for n = 8:8 % Scheduler
         % Calcola i dati finali per ciascun valore di N_Products
 
         datifinali = ((Data2procfiltered - Data1procfiltered)./Data1procfiltered)*100;
-        %datifinali = Data2procfiltered ./ Data1procfiltered;
 
        
         
         % Traccia i dati finali per il processo corrente
-        plot(range, datifinali, 'Color', colore);
+        plot(range, datifinali, 'Color', colore, 'LineWidth',2);
         hold on;
     end
 

@@ -51,8 +51,8 @@ defmodule TaskIO do
   end
 
   def run(path_result \\"./File/fileIO.csv") do
-    processes = [1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256, 512]
-    productsnumber = 20000
+    processes = [1, 4, 8, 16, 64, 128, 512]
+    productsnumber = 10000
     step = 250
 
     {:ok, file} = File.open("./File/write.csv", [:write, :append])
@@ -79,29 +79,37 @@ defmodule TaskIO do
     # Logger.info("temp: #{temp} , products_number: #{(temp*processnumber + rest)}")
 
     # Logger.info("multiple process")
-    {time, _result} =
-      :timer.tc(
-        fn ->
-          tasks =
-            for _i <- 1..processnumber do
-              Task.async(fn -> compute_products(temp, file) end)
+    data = for _i <- 1..40 do
+      # {_time, _result} =
+        :timer.tc(
+          fn ->
+            tasks =
+              for _i <- 1..processnumber do
+                Task.async(fn -> compute_products(temp, file) end)
+              end
+
+            restTask = Task.async(fn -> compute_products(rest, file) end)
+
+            # Per ogni task aspetta di finire
+            for task <- tasks do
+              Task.await(task, :infinity)
             end
 
-          restTask = Task.async(fn -> compute_products(rest, file) end)
+            Task.await(restTask, :infinity)
+          end,
+          [],
+          :microsecond
+        )
+    end
 
-          # Per ogni task aspetta di finire
-          for task <- tasks do
-            Task.await(task, :infinity)
-          end
+    # calcolo della media dei tempi
+    times = data |> Enum.map(fn {time, _result} -> time end)
+    total_time = Enum.sum(times)
+    average_time = total_time / length(times)
 
-          Task.await(restTask, :infinity)
-        end,
-        [],
-        :microsecond
-      )
 
-    writeData2File(time, processnumber, productsnumber, path_result)
-    {:ok, time}
+    writeData2File(average_time, processnumber, productsnumber, path_result)
+    {:ok, average_time}
   end
 
   def writeData2File(time, processnumber, productsnumber, path_result) do
@@ -114,8 +122,8 @@ defmodule TaskIO do
       "#{available_scheduler},",
       "#{time},",
       "#{processnumber},",
-      "#{productsnumber},",
-      "#{time / productsnumber}\n"
+      "#{productsnumber}\n",
+      # "#{time / productsnumber}\n"
     ]
 
     # scrittura risultato su file
@@ -124,12 +132,12 @@ defmodule TaskIO do
     {:ok, time}
   end
 
-  def run_more_test(20) do
+  def run_more_test(10) do
     nil
   end
 
-  def run_more_test(operations \\0) do
-    path =  "./matlab/file_test/n_file_IO2/fileIO" <> Integer.to_string(operations + 1)<> ".csv"
+  def run_more_test(operations) do
+    path =  "./matlab/file_test/n_file_IO3/fileIO" <> Integer.to_string(operations + 1)<> ".csv"
     run(path)
     run_more_test(operations + 1)
   end

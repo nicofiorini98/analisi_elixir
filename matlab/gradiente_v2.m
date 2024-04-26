@@ -46,21 +46,11 @@ media = (data(:, 3) + data2(:, 3) + data3(:,3) + data4(:,3) + data5(:, 3) ...
     + data13(:,3) + data14(:,3) + data15(:, 3) ...
     + data16(:,3) + data17(:, 3) + data18(:, 3) + data19(:,3) + data20(:,3)) ./ 20;
 
-% media = (data(:, 3) + data2(:, 3)) ./ 2;
-% 
 data(:,3) = media;
 
-% byte_a_operazione = table2array(data(:,5) .* 17);
-% un_mega = 1048576;
-% tempo_secondi = table2array(data(:,3) .* 10^-6);
-% 
-% mega_sec = (byte_a_operazione / un_mega) ./ tempo_secondi;
-% 
-% data(:,3) = array2table(test);
 
-% data(:,3) = ((data(:,5) .* 17 ) ./ 1048576) ./ (data(:,3) .* 10^-6);
-% qui devo vedere i byte scritti su disco.
-
+range = 500:250:20000;
+processes = [2,3,4,5,6,7,8,16,32,64,128,256,512];
 
 colors = [
     255 0   0   % Red
@@ -83,41 +73,48 @@ colors = [
     255 215 0   % Gold
     255 105 180 % Hot Pink
     255 140 0   % Dark Orange
-    ];
+ ];
+
 colors = colors / 255;
-%processes = [1,2,3,4,5,6,7,8,16,32,64,128,256,512];
-processes = [1,2,4,8,64,256];
 
-for n =8:8
+for n = 8:8 % Scheduler
 
-    figure;
+    figure
+    xlabel('N_Products');
+    ylabel('Time/Products');
 
-    for i = 1:length(processes)
 
-        num_processes = processes(i);
+    for k = 2:length(processes)
 
-        % Filtra i dati per N_Processes = 1 e N_Products = 1
-        filteredData = data(data.N_Processes == num_processes & data.N_Scheduler==n,:);
+        colore = colors(k,:);
 
-        filteredTime = (filteredData.Time ./ filteredData.N_Products);
-        plot(filteredData.N_Products, filteredTime, 'Color', colors(i, :),'LineWidth',2);
+        Data1proc = data(data.N_Processes == processes(k-1) & data.N_Scheduler == n, :);
 
-        hold on
+        Data1procfiltered = Data1proc.Time ./ Data1proc.N_Products;
 
+
+        datifinali = zeros(size(range)); % Inizializza l'array dei dati finali per il processo corrente
+
+        Data2proc = data(data.N_Processes == processes(k) & data.N_Scheduler == n, :);
+
+        Data2procfiltered = Data2proc.Time ./ Data2proc.N_Products;
+
+        % Calcola i dati finali per ciascun valore di N_Products
+
+        datifinali = ((Data2procfiltered - Data1procfiltered)./Data1procfiltered);
+        % datifinali = gradient(datisemifinali');
+
+
+
+        % Traccia i dati finali per il processo corrente
+        plot(range, datifinali, 'Color', colore, 'LineWidth',2);
+        hold on;
     end
-    xlabel('N. Operazioni IO');
-    ylabel('Time/operazione(microsec)');
 
-    title('Grafico per n. Scheduler: ',n);
-    
+    title('Guadagno per num scheduler', n);
 
-    % legend('1 process','2 processes','3 processes','4 processes', ...
-    %     '5 processes','6 processes','7 processes','8 processes', ...
-    %     '16 processes','32 processes','64 processes','128 processes',...
-    %     '256 processes','512 processes');
-    legend('1 process','2 processes','4 processes', ...
-         '8 processes','64 processes', ...
-         '256 processes');
-
-
+    legend('2 processes','4 processes',...
+        '8 processes', '64 processes','256 processes');
+    % legend_entries = arrayfun(@(x) sprintf('Processi %d', x), processes, 'UniformOutput', false);
+    % legend(legend_entries);
 end
