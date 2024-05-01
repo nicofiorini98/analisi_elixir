@@ -49,8 +49,11 @@ media = (data(:, 3) + data2(:, 3) + data3(:,3) + data4(:,3) + data5(:, 3) ...
 data(:,3) = media;
 
 
-range = 500:250:20000;
-processes = [2,3,4,5,6,7,8,16,32,64,128,256,512];
+% range = 500:250:20000;
+
+range = 2000:2000:20000;
+
+processes = [1,2,3,4,5,6,7,8,16,32,64,128,256,512];
 
 colors = [
     255 0   0   % Red
@@ -73,9 +76,22 @@ colors = [
     255 215 0   % Gold
     255 105 180 % Hot Pink
     255 140 0   % Dark Orange
+    255 140 0   % Dark Orange
  ];
 
 colors = colors / 255;
+
+
+colonna_dati = data.N_Products;
+
+
+% Trova gli indici degli elementi nell'array che soddisfano le condizioni
+indici = find(data.N_Products >= 2000 & data.N_Products <= 20000 & mod(data.N_Products, 2000) == 0);
+
+% Filtra l'array utilizzando gli indici trovati
+data = data(indici,:);
+
+
 
 for n = 8:8 % Scheduler
 
@@ -84,37 +100,63 @@ for n = 8:8 % Scheduler
     ylabel('Time/Products');
 
 
-    for k = 2:length(processes)
+  
 
-        colore = colors(k,:);
+    for r = 1:length(range')
+        colore = colors(r,:);
+        
+        indice_r = find(data.N_Products == range(r));
 
-        Data1proc = data(data.N_Processes == processes(k-1) & data.N_Scheduler == n, :);
+        datar = data(indice_r,:);
 
-        Data1procfiltered = Data1proc.Time ./ Data1proc.N_Products;
+        datar.gain = zeros(height(datar), 1);
+        
+        for k = 2:length(processes)
 
+            differenza = (datar(k,3) - datar(1,3));
 
-        datifinali = zeros(size(range)); % Inizializza l'array dei dati finali per il processo corrente
+            datar(k,7) = differenza ./ datar(1,3);
+        end
 
-        Data2proc = data(data.N_Processes == processes(k) & data.N_Scheduler == n, :);
+        datar = datar(2:end, :);
+        processes2 = processes(1,2:end);
 
-        Data2procfiltered = Data2proc.Time ./ Data2proc.N_Products;
-
-        % Calcola i dati finali per ciascun valore di N_Products
-
-        datifinali = ((Data2procfiltered - Data1procfiltered)./Data1procfiltered);
-        % datifinali = gradient(datisemifinali');
-
-
-
-        % Traccia i dati finali per il processo corrente
-        plot(range, datifinali, 'Color', colore, 'LineWidth',2);
+        plot(processes2, datar.gain , 'Color', colore, 'LineWidth',2);
         hold on;
     end
 
+    % for k = 2:length(processes)
+    % 
+    %     colore = colors(k,:);
+    % 
+    %     Data1proc = data(data.N_Processes == processes(k-1) & data.N_Scheduler == n, :);
+    % 
+    %     Data1procfiltered = Data1proc.Time ./ Data1proc.N_Products;
+    % 
+    % 
+    %     datifinali = zeros(size(range)); % Inizializza l'array dei dati finali per il processo corrente
+    % 
+    %     Data2proc = data(data.N_Processes == processes(k) & data.N_Scheduler == n, :);
+    % 
+    %     Data2procfiltered = Data2proc.Time ./ Data2proc.N_Products;
+    % 
+    %     % Calcola i dati finali per ciascun valore di N_Products
+    % 
+    %     datifinali = ((Data2procfiltered - Data1procfiltered)./Data1procfiltered);
+    %     % datifinali = gradient(datisemifinali');
+    % 
+    % 
+    % 
+    %     % Traccia i dati finali per il processo corrente
+    %     plot(range, datifinali, 'Color', colore, 'LineWidth',2);
+    %     hold on;
+    % end
+
     title('Guadagno per num scheduler', n);
 
-    legend('2 processes','4 processes',...
-        '8 processes', '64 processes','256 processes');
+    legend('2000 operations','4000 operations',...
+        '6000 operations', '8000 processes','10000 processes', ...
+        '12000 operations','14000 operations','16000 operations','18000 operations','20000 operations');
     % legend_entries = arrayfun(@(x) sprintf('Processi %d', x), processes, 'UniformOutput', false);
     % legend(legend_entries);
 end

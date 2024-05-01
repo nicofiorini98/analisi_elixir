@@ -48,13 +48,15 @@ media = (data(:, 3) + data2(:, 3) + data3(:,3) + data4(:,3) + data5(:, 3) ...
 
 data(:,3) = media;
 
-%devo prendere tutti i file e mediare il tempo
 
+range = 500:500:100000;
+processes = [2,3,4,5,6,7,8,16,32,64,128,256,512];
+% processes = [2,4,8,64,256];
 colors = [
     255 0   0   % Red
     0   255 0   % Green
     0   0   255 % Blue
-    255 255 0   % Yellow
+    % 255 255 0   % Yellow
     0   255 255 % Cyan
     255 0   255 % Magenta
     128 128 128 % Gray
@@ -72,40 +74,36 @@ colors = [
     255 105 180 % Hot Pink
     255 140 0   % Dark Orange
     ];
+
 colors = colors / 255;
-%processes = [1,2,3,4,5,6,7,8,16,32,64,128,256,512];
-processes = [1,2,3,4,5,6,7,8,16,32,64,128,256,512];
 
-for n =8:8
+for n = 8:8 % Scheduler
+    Data1proc = data(data.N_Processes == 1 & data.N_Scheduler == n, :);
+    Data1procfiltered = Data1proc.Time ./ Data1proc.N_Products;
+    figure
+    xlabel('N_Products');
+    ylabel('Time/Products');
 
-    figure;
+    for k = 1:length(processes)
+        
+        colore = colors(k,:);
+        
+        datifinali = zeros(size(range)); % Inizializza l'array dei dati finali per il processo corrente
+        Data2proc = data(data.N_Processes == processes(k) & data.N_Scheduler == n, :);
+        Data2procfiltered = Data2proc.Time ./ Data2proc.N_Products;
 
-    for i = 1:length(processes)
+        % Calcola i dati finali per ciascun valore di N_Products
 
-        num_processes = processes(i);
+        datifinali = ((Data2procfiltered - Data1procfiltered)./Data1procfiltered)*100;
 
-        % Filtra i dati per N_Processes = 1 e N_Products = 1
-        filteredData = data(data.N_Processes == num_processes & data.N_Scheduler==n,:);
-
-        filteredTime = ...
-             (filteredData.Time ./filteredData.N_Products);
-        plot(filteredData.N_Products, filteredTime, 'Color', colors(i, :));
-
-        hold on
-
+       
+        
+        % Traccia i dati finali per il processo corrente
+        plot(range, datifinali, 'Color', colore, 'LineWidth',2);
+        hold on;
     end
-    xlabel('N. Operazioni IO');
-    ylabel('Time/operazione(microsec)');
 
-    title('Grafico per n. Scheduler: ',n);
-
-    legend('1 process','2 processes','3 processes','4 processes', ...
-        '5 processes','6 processes','7 processes','8 processes', ...
-        '16 processes','32 processes','64 processes','128 processes',...
-        '256 processes','512 processes');
-    % legend('1 process','2 processes','3 processes','4 processes', ...
-    %      '5 processes','6 processes','7 processes','8 processes', ...
-    %      '16 processes','128 processes','256 processes');
-
-
+    title('Guadagno per num scheduler', n);
+    legend_entries = arrayfun(@(x) sprintf('Processi %d', x), processes, 'UniformOutput', false);
+    legend(legend_entries);
 end
