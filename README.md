@@ -76,3 +76,11 @@ da 20 test effettuati, presenti nella cartella "./matlab/file_test/n_fileIO2"
 ad utilizzarne uno solo
 
 - `gradiente.m` Stampa il grafico del gradiente nell'eseguire le operazioni di IO su m processi rispetto ad utilizzarne (m-k).
+
+### Warning Matlab
+Se si usa matlab con test eseguiti e non quelli presenti, fare attenzione ad inserire l'header
+nel file csv, ovvero la riga:
+
+```csv
+N_Scheduler,N_Available_Scheduler,Time,N_Processes,N_Products,Time/N_Products
+```

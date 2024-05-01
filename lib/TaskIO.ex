@@ -122,8 +122,8 @@ defmodule TaskIO do
       "#{available_scheduler},",
       "#{time},",
       "#{processnumber},",
-      "#{productsnumber}\n",
-      # "#{time / productsnumber}\n"
+      "#{productsnumber},",
+      "#{time / productsnumber}\n"
     ]
 
     # scrittura risultato su file
